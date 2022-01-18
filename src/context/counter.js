@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export const StateContext = createContext({
+export const CounterContext = createContext({
     counter: "no counter set",
     setCounter: () => console.error("can't set counter")
 })
