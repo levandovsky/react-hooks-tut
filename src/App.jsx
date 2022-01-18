@@ -1,16 +1,16 @@
 import {useState} from "react";
 import "./App.css";
 import {Component1} from "./components/Component1";
-import {StateContext} from "./state";
+import {CounterContext} from "./context/counter";
 
 function App() {
     const [counter, setCounter] = useState(0);
 
     return (
         <div className="App">
-            <StateContext.Provider value={{counter, setCounter}}>
+            <CounterContext.Provider value={{counter, setCounter}}>
                 <Component1 />
-            </StateContext.Provider>
+            </CounterContext.Provider>
         </div>
     );
 }
