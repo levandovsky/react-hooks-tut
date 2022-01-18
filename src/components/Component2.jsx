@@ -1,22 +1,23 @@
 import {useContext} from "react";
-import {CounterContext} from "../context/counter";
-import {WordContext} from "../context/word";
+import {StateContext} from "../context/state";
 
 export const Component2 = () => {
-    const {counter, setCounter} = useContext(CounterContext);
-    const word = useContext(WordContext);
+    const {state, dispatch} = useContext(StateContext);
+
     return (
-        <div>
-            <div>counter is: {counter}</div>
-            <div>word is: {word}</div>
+        <div style={{border: "1px solid blue", padding: "1rem"}}>
+            <h3>
+                Component 2
+            </h3>
+            <div>counter is: {state.counter}</div>
+            <div>word is: {state.word}</div>
             <button
                 onClick={() => {
-                    setCounter((prev) => prev + 1);
+                    dispatch({type: "increment", value: 1});
                 }}
             >
                 Increment
             </button>
         </div>
     );
-    // return <StateContext.Consumer>{(state) => <div>state is: {state}</div>}</StateContext.Consumer>;
 };

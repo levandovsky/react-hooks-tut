@@ -1,28 +1,66 @@
-import {useState} from "react";
 import "./App.css";
+
+import {useReducer} from "react";
 import {Component1} from "./components/Component1";
-import {CounterContext} from "./context/counter";
-import {WordContext} from "./context/word";
+import {StateContext} from "./context/state";
+import {WordInput} from "./components/WordInput";
+import {StepInput} from "./components/StepInput";
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case "increment":
+            return {
+                ...state,
+                counter: state.counter + state.step,
+            };
+
+        case "decrement":
+            return {
+                ...state,
+                counter: state.counter - state.step,
+            };
+
+        case "reset": {
+            return {
+                ...state,
+                counter: 0,
+            };
+        }
+
+        case "updateWord":
+            return {
+                ...state,
+                word: action.value,
+            };
+
+        case "updateStep":
+            return {
+                ...state,
+                step: Number(action.value),
+            };
+
+        default:
+            throw new Error("Unknown action: ", action.type);
+    }
+};
 
 function App() {
-    const [counter, setCounter] = useState(0);
-    const [word, setWord] = useState("");
-    const handleChange = (e) => {
-        setWord(e.target.value);
-    };
+    const [state, dispatch] = useReducer(reducer, {
+        counter: 0,
+        word: "",
+        step: 1,
+    });
 
     return (
-        <div className="App">
-            <CounterContext.Provider value={{counter, setCounter}}>
-                <WordContext.Provider value={word}>
-                    <Component1 />
-                </WordContext.Provider>
-            </CounterContext.Provider>
-
-            <div>
-                <label htmlFor="word">Word: </label>
-                <input name="word" value={word} onChange={handleChange} />
-            </div>
+        <div style={{border: "1px solid purple", padding: "1rem"}}>
+            <h3>
+                App component
+            </h3>
+            <StateContext.Provider value={{state, dispatch}}>
+                <Component1 />
+                <WordInput />
+                <StepInput />
+            </StateContext.Provider>
         </div>
     );
 }
